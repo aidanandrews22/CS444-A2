@@ -63,10 +63,17 @@ class NeuralNetwork:
             ) * np.sqrt(2 / sizes[i - 1])
             self.params["b" + str(i)] = np.zeros(sizes[i])
 
-            # Init momentum buffers
+            # Init momentum buffers for SGD
             self.params["mW" + str(i)] = np.zeros((sizes[i - 1], sizes[i]))
             self.params["mb" + str(i)] = np.zeros(sizes[i])
-
+            
+            # Init Adam-specific parameters
+            if self.opt == "Adam":
+                self.params["m_W" + str(i)] = np.zeros((sizes[i - 1], sizes[i]))
+                self.params["m_b" + str(i)] = np.zeros(sizes[i])
+                self.params["v_W" + str(i)] = np.zeros((sizes[i - 1], sizes[i]))
+                self.params["v_b" + str(i)] = np.zeros(sizes[i])
+    
     def linear(self, W: np.ndarray, X: np.ndarray, b: np.ndarray) -> np.ndarray:
         """Fully connected (linear) layer.
         Parameters:
