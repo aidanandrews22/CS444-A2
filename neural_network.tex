@@ -1,0 +1,1962 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{neural\_network}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{assignment-2}{%
+\section{Assignment 2}\label{assignment-2}}
+
+In this assignment you will create a coordinate-based multilayer
+perceptron in numpy from scratch. For each input image coordinate
+\((x,y)\), the model predicts the associated color \((r,g,b)\).
+
+\begin{figure}
+\centering
+\includegraphics{https://user-images.githubusercontent.com/3310961/85066930-ad444580-b164-11ea-9cc0-17494679e71f.png}
+\caption{Network diagram}
+\end{figure}
+
+You will then compare the following input feature mappings
+\(\gamma (\mathbf{v})\).
+
+\begin{itemize}
+\item
+  No mapping: \(\gamma(\mathbf{v})= \mathbf{v}\).
+\item
+  Basic mapping:
+  \(\gamma(\mathbf{v})=\left[ \cos(2 \pi \mathbf{v}),\sin(2 \pi \mathbf{v}) \right]^\mathrm{T}\).
+\item
+  Gaussian Fourier feature mapping:
+  \(\gamma(\mathbf{v})= \left[ \cos(2 \pi \mathbf B \mathbf{v}), \sin(2 \pi \mathbf B \mathbf{v}) \right]^\mathrm{T}\),
+  where each entry in \(\mathbf B \in \mathbb R^{m \times d}\) is
+  sampled from \(\mathcal N(0,\sigma^2)\).
+\end{itemize}
+
+Some notes to help you with that:
+
+\begin{itemize}
+\tightlist
+\item
+  You will implement the mappings in the helper functions
+  \texttt{get\_B\_dict} and \texttt{input\_mapping}.
+\item
+  The basic mapping can be considered a case where
+  \(\mathbf B \in \mathbb R^{2 \times 2}\) is the indentity matrix.
+\item
+  For this assignment, \(d\) is 2 because the input coordinates in two
+  dimensions.
+\item
+  You can experiment with \(m\), like \(m=256\).
+\item
+  You should show results for \(\sigma\) value of 1.
+\end{itemize}
+
+Source: https://bmild.github.io/fourfeat/ This assignment is inspired by
+and built off of the authors' demo.
+
+    \hypertarget{setup}{%
+\subsection{Setup}\label{setup}}
+
+    \hypertarget{optional-colab-setup}{%
+\subsubsection{(Optional) Colab Setup}\label{optional-colab-setup}}
+
+If you aren't using Colab, you can delete the following code cell.
+Replace the path below with the path in your Google Drive to the
+uploaded assignment folder. Mounting to Google Drive will allow you
+access the other .py files in the assignment folder and save outputs to
+this folder
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} you will be prompted with a window asking to grant permissions}
+\PY{c+c1}{\PYZsh{} click connect to google drive, choose your account, and click allow}
+\PY{k+kn}{from} \PY{n+nn}{google}\PY{n+nn}{.}\PY{n+nn}{colab} \PY{k+kn}{import} \PY{n}{drive}
+\PY{n}{drive}\PY{o}{.}\PY{n}{mount}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/content/drive}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Mounted at /content/drive
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} TODO: fill in the path in your Google Drive in the string below}
+\PY{c+c1}{\PYZsh{} Note: do not escape slashes or spaces in the path string}
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{c+c1}{\PYZsh{} datadir = \PYZdq{}/content/assignment2\PYZdq{}}
+\PY{c+c1}{\PYZsh{} if not os.path.exists(datadir):}
+\PY{c+c1}{\PYZsh{}   !ln \PYZhy{}s \PYZdq{}/content/drive/My Drive/path/to/your/assignment2/\PYZdq{} \PYZdl{}datadir}
+\PY{n}{datadir} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/content/drive/My Drive/CS 444/MPs/assignment2\PYZus{}starter\PYZus{}code/assignment2\PYZus{}starter\PYZus{}code}\PY{l+s+s2}{\PYZdq{}}
+\PY{c+c1}{\PYZsh{} datadir = \PYZdq{}/content/drive/My Drive/assignment2\PYZus{}starter\PYZus{}code\PYZdq{} \PYZsh{} Aidan Datadir}
+\PY{n}{os}\PY{o}{.}\PY{n}{chdir}\PY{p}{(}\PY{n}{datadir}\PY{p}{)}
+\PY{o}{!}pwd
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/content/drive/My Drive/CS
+444/MPs/assignment2\_starter\_code/assignment2\_starter\_code
+    \end{Verbatim}
+
+    \hypertarget{imports}{%
+\subsubsection{Imports}\label{imports}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{tqdm}\PY{n+nn}{.}\PY{n+nn}{notebook} \PY{k+kn}{import} \PY{n}{tqdm}
+\PY{k+kn}{import} \PY{n+nn}{os}\PY{o}{,} \PY{n+nn}{imageio}
+\PY{k+kn}{import} \PY{n+nn}{cv2}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{c+c1}{\PYZsh{} imports /content/assignment2/models/neural\PYZus{}net.py if you mounted correctly}
+\PY{k+kn}{from} \PY{n+nn}{models}\PY{n+nn}{.}\PY{n+nn}{aidan\PYZus{}neural\PYZus{}net} \PY{k+kn}{import} \PY{n}{NeuralNetwork}
+
+\PY{c+c1}{\PYZsh{} makes sure your NeuralNetwork updates as you make changes to the .py file}
+\PY{o}{\PYZpc{}}\PY{k}{load\PYZus{}ext} autoreload
+\PY{o}{\PYZpc{}}\PY{k}{autoreload} 2
+
+\PY{c+c1}{\PYZsh{} sets default size of plots}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{10.0}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+The autoreload extension is already loaded. To reload it, use:
+  \%reload\_ext autoreload
+    \end{Verbatim}
+
+    \hypertarget{helper-functions}{%
+\subsection{Helper Functions}\label{helper-functions}}
+
+    \hypertarget{image-data-and-feature-mappings-fill-in-todos}{%
+\subsubsection{Image Data and Feature Mappings (Fill in
+TODOs)}\label{image-data-and-feature-mappings-fill-in-todos}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Data loader \PYZhy{} already done for you}
+\PY{k}{def} \PY{n+nf}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{l+m+mi}{512}\PY{p}{,} \PYZbs{}
+              \PY{n}{image\PYZus{}url}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://bmild.github.io/fourfeat/img/lion\PYZus{}orig.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+
+  \PY{c+c1}{\PYZsh{} Download image, take a square crop from the center}
+  \PY{n}{img} \PY{o}{=} \PY{n}{imageio}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{n}{image\PYZus{}url}\PY{p}{)}\PY{p}{[}\PY{o}{.}\PY{o}{.}\PY{o}{.}\PY{p}{,} \PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{/} \PY{l+m+mf}{255.}
+  \PY{n}{c} \PY{o}{=} \PY{p}{[}\PY{n}{img}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{img}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{]}
+  \PY{n}{r} \PY{o}{=} \PY{l+m+mi}{256}
+  \PY{n}{img} \PY{o}{=} \PY{n}{img}\PY{p}{[}\PY{n}{c}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{r}\PY{p}{:}\PY{n}{c}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{+}\PY{n}{r}\PY{p}{,} \PY{n}{c}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{r}\PY{p}{:}\PY{n}{c}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{+}\PY{n}{r}\PY{p}{]}
+
+  \PY{k}{if} \PY{n}{size} \PY{o}{!=} \PY{l+m+mi}{512}\PY{p}{:}
+    \PY{n}{img} \PY{o}{=} \PY{n}{cv2}\PY{o}{.}\PY{n}{resize}\PY{p}{(}\PY{n}{img}\PY{p}{,} \PY{p}{(}\PY{n}{size}\PY{p}{,} \PY{n}{size}\PY{p}{)}\PY{p}{)}
+
+  \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{img}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} Create input pixel coordinates in the unit square}
+  \PY{n}{coords} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{img}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{endpoint}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+  \PY{n}{x\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{stack}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{meshgrid}\PY{p}{(}\PY{n}{coords}\PY{p}{,} \PY{n}{coords}\PY{p}{)}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}
+  \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{img}\PY{p}{]}
+  \PY{n}{train\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{n}{x\PYZus{}test}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,} \PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{img}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{,} \PY{p}{:}\PY{p}{:}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}
+
+  \PY{k}{return} \PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Create the mappings dictionary of matrix B \PYZhy{}  you will implement this}
+\PY{k}{def} \PY{n+nf}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{:}
+  \PY{n}{mapping\PYZus{}size} \PY{o}{=} \PY{n}{size} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2} \PY{c+c1}{\PYZsh{} you may tweak this hyperparameter}
+  \PY{n}{B\PYZus{}dict} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+  \PY{n}{B\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{none}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{k+kc}{None}
+
+  \PY{c+c1}{\PYZsh{} add B matrix for basic, gauss\PYZus{}1.0}
+  \PY{c+c1}{\PYZsh{} TODO implement this}
+  \PY{n}{B\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{basic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{identity}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}
+  \PY{n}{B\PYZus{}dict}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gauss\PYZus{}1.0}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{normal}\PY{p}{(}\PY{n}{size}\PY{o}{=}\PY{p}{(}\PY{n}{mapping\PYZus{}size}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+
+  \PY{k}{return} \PY{n}{B\PYZus{}dict}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Given tensor x of input coordinates, map it using B \PYZhy{} you will implement}
+\PY{k}{def} \PY{n+nf}{input\PYZus{}mapping}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{B}\PY{p}{)}\PY{p}{:}
+  \PY{k}{if} \PY{n}{B} \PY{o+ow}{is} \PY{k+kc}{None}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} \PYZdq{}none\PYZdq{} mapping \PYZhy{} just returns the original input coordinates}
+    \PY{k}{return} \PY{n}{x}
+  \PY{k}{else}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} \PYZdq{}basic\PYZdq{} mapping and \PYZdq{}gauss\PYZus{}X\PYZdq{} mappings project input features using B}
+    \PY{c+c1}{\PYZsh{} TODO implement this}
+    \PY{n}{x2} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{B}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{x2} \PY{o}{@} \PY{n}{B}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{x2} \PY{o}{@} \PY{n}{B}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{axis} \PY{o}{=} \PY{l+m+mi}{1}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{mse-loss-and-psnr-error-fill-in-todos}{%
+\subsubsection{MSE Loss and PSNR Error (Fill in
+TODOs)}\label{mse-loss-and-psnr-error-fill-in-todos}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{mse}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{:}
+  \PY{c+c1}{\PYZsh{} TODO implement this}
+  \PY{c+c1}{\PYZsh{} make sure it is consistent with your implementation in neural\PYZus{}net.py}
+  \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{(}\PY{n}{y} \PY{o}{\PYZhy{}} \PY{n}{p}\PY{p}{)} \PY{o}{*}\PY{o}{*} \PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{psnr}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{:}
+  \PY{c+c1}{\PYZsh{} TODO implement this}
+  \PY{k}{return} \PY{o}{\PYZhy{}}\PY{l+m+mi}{10} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{l+m+mf}{2.}\PY{o}{*}\PY{n}{mse}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{32}
+\PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<ipython-input-9-47d50880e2e8>:6: DeprecationWarning: Starting with ImageIO v3
+the behavior of this function will switch to that of iio.v3.imread. To keep the
+current behavior (and make this warning disappear) use `import imageio.v2 as
+imageio` or call `imageio.v2.imread` directly.
+  img = imageio.imread(image\_url)[{\ldots}, :3] / 255.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_14_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Some suggested hyperparameter choices to help you start - hidden layer
+count: 4 - hidden layer size: 256 - number of epochs: 1000 - learning
+rate: 0.1
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{num\PYZus{}layers} \PY{o}{=} \PY{l+m+mi}{4}  \PY{c+c1}{\PYZsh{} you should not change this value}
+
+\PY{c+c1}{\PYZsh{} TODO: Set the hyperparameters}
+\PY{n}{hidden\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{512} \PY{c+c1}{\PYZsh{} 256 \PYZsh{}256}
+\PY{n}{epochs} \PY{o}{=} \PY{l+m+mi}{2000} \PY{c+c1}{\PYZsh{} 1000}
+\PY{n}{learning\PYZus{}rate} \PY{o}{=} \PY{l+m+mf}{0.05} \PY{c+c1}{\PYZsh{} 0.1}
+\PY{n}{output\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{n}{B\PYZus{}dict} \PY{o}{=} \PY{n}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{B\PYZus{}dict items:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{k}\PY{p}{,}\PY{n}{v} \PY{o+ow}{in} \PY{n}{B\PYZus{}dict}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{v}\PY{p}{)}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+B\_dict items:
+         none ()
+         basic (2, 2)
+         gauss\_1.0 (16, 2)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Apply the input feature mapping to the train and test data \PYZhy{} already done for you}
+\PY{k}{def} \PY{n+nf}{get\PYZus{}input\PYZus{}features}\PY{p}{(}\PY{n}{B\PYZus{}dict}\PY{p}{,} \PY{n}{mapping}\PY{p}{)}\PY{p}{:}
+  \PY{c+c1}{\PYZsh{} mapping is the key to the B\PYZus{}dict, which has the value of B}
+  \PY{c+c1}{\PYZsh{} B is then used with the function `input\PYZus{}mapping` to map x}
+  \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{)}
+  \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{test\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{)}
+  \PY{n}{X\PYZus{}train} \PY{o}{=} \PY{n}{input\PYZus{}mapping}\PY{p}{(}\PY{n}{train\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{B\PYZus{}dict}\PY{p}{[}\PY{n}{mapping}\PY{p}{]}\PY{p}{)}
+  \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{input\PYZus{}mapping}\PY{p}{(}\PY{n}{test\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{B\PYZus{}dict}\PY{p}{[}\PY{n}{mapping}\PY{p}{]}\PY{p}{)}
+  \PY{k}{return} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{plotting-and-video-helper-functions-you-dont-need-to-change-anything-here}{%
+\subsubsection{Plotting and video helper functions (you don't need to
+change anything
+here)}\label{plotting-and-video-helper-functions-you-dont-need-to-change-anything-here}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}training\PYZus{}curves}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{)}\PY{p}{:}
+  \PY{c+c1}{\PYZsh{} plot the training loss}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSE history}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Iteration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{MSE Loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot the training and testing psnr}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{test\PYZus{}psnr}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PSNR history}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Iteration}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PSNR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+  \PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}reconstruction}\PY{p}{(}\PY{n}{p}\PY{p}{,} \PY{n}{y}\PY{p}{)}\PY{p}{:}
+  \PY{n}{p\PYZus{}im} \PY{o}{=} \PY{n}{p}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}
+  \PY{n}{y\PYZus{}im} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}
+
+  \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot the reconstruction of the image}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{p\PYZus{}im}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reconstruction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot the ground truth image}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{y\PYZus{}im}\PY{p}{)}\PY{p}{,} \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ground truth}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final Test MSE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{mse}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final Test psnr}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{psnr}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}reconstruction\PYZus{}progress}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{N}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{:}
+  \PY{n}{total} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{)}
+  \PY{n}{step} \PY{o}{=} \PY{n}{total} \PY{o}{/}\PY{o}{/} \PY{n}{N}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{24}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot the progress of reconstructions}
+  \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{total}\PY{p}{,} \PY{n}{step}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{iter }\PY{l+s+si}{\PYZob{}}\PY{n}{j}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot ground truth image}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{off}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}feature\PYZus{}mapping\PYZus{}comparison}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{gt}\PY{p}{)}\PY{p}{:}
+  \PY{c+c1}{\PYZsh{} plot reconstruction images for each mapping}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{24}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+  \PY{n}{N} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}
+  \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}\PY{p}{:}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pred\PYZus{}imgs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,} \PY{n}{size}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{n}{k}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{N}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{gt}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} plot train/test error curves for each mapping}
+  \PY{n}{iters} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}psnrs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{121}\PY{p}{)}
+  \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}\PY{p}{:}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{iters}\PY{p}{)}\PY{p}{,} \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}psnrs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{k}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Train error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PSNR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Training iter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{122}\PY{p}{)}
+  \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}\PY{p}{:}
+      \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{iters}\PY{p}{)}\PY{p}{,} \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}psnrs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{n}{k}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Test error}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PSNR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Training iter}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Save out video}
+\PY{k}{def} \PY{n+nf}{create\PYZus{}and\PYZus{}visualize\PYZus{}video}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{size}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{n}{epochs}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{training\PYZus{}convergence.mp4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+  \PY{n}{all\PYZus{}preds} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{concatenate}\PY{p}{(}\PY{p}{[}\PY{n}{outputs}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pred\PYZus{}imgs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{epochs}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]} \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{outputs}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{p}{)}
+  \PY{n}{data8} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{255}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{clip}\PY{p}{(}\PY{n}{all\PYZus{}preds}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{uint8}\PY{p}{)}
+  \PY{n}{f} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{filename}\PY{p}{)}
+  \PY{n}{imageio}\PY{o}{.}\PY{n}{mimwrite}\PY{p}{(}\PY{n}{f}\PY{p}{,} \PY{n}{data8}\PY{p}{,} \PY{n}{fps}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} Display video inline}
+  \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{HTML}
+  \PY{k+kn}{from} \PY{n+nn}{base64} \PY{k+kn}{import} \PY{n}{b64encode}
+  \PY{n}{mp4} \PY{o}{=} \PY{n+nb}{open}\PY{p}{(}\PY{n}{f}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{read}\PY{p}{(}\PY{p}{)}
+  \PY{n}{data\PYZus{}url} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{data:video/mp4;base64,}\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{n}{b64encode}\PY{p}{(}\PY{n}{mp4}\PY{p}{)}\PY{o}{.}\PY{n}{decode}\PY{p}{(}\PY{p}{)}
+
+  \PY{n}{N} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}
+  \PY{k}{if} \PY{n}{N} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{:}
+    \PY{k}{return} \PY{n}{HTML}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{    \PYZlt{}video width=256 controls autoplay loop\PYZgt{}}
+\PY{l+s+s1}{          \PYZlt{}source src=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{data\PYZus{}url}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ type=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{video/mp4}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}}
+\PY{l+s+s1}{    \PYZlt{}/video\PYZgt{}}
+\PY{l+s+s1}{    }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}\PY{p}{)}
+  \PY{k}{else}\PY{p}{:}
+    \PY{k}{return} \PY{n}{HTML}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+s1}{    \PYZlt{}video width=1000 controls autoplay loop\PYZgt{}}
+\PY{l+s+s1}{          \PYZlt{}source src=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{data\PYZus{}url}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ type=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{video/mp4}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}}
+\PY{l+s+s1}{    \PYZlt{}/video\PYZgt{}}
+\PY{l+s+s1}{    \PYZlt{}table width=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{1000}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ cellspacing=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{ cellpadding=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{0}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}}
+\PY{l+s+s1}{      \PYZlt{}tr\PYZgt{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{N}\PY{o}{*}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}td width=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{l+m+mi}{1000}\PY{o}{/}\PY{o}{/}\PY{n+nb}{len}\PY{p}{(}\PY{n}{outputs}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}\PYZlt{}/td\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZlt{}/tr\PYZgt{}}
+\PY{l+s+s1}{      \PYZlt{}tr\PYZgt{}}\PY{l+s+si}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{N}\PY{o}{*}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}td style=}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{text\PYZhy{}align:center}\PY{l+s+s1}{\PYZdq{}}\PY{l+s+s1}{\PYZgt{}}\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s1}{\PYZlt{}/td\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZlt{}/tr\PYZgt{}}
+\PY{l+s+s1}{    \PYZlt{}/table\PYZgt{}}
+\PY{l+s+s1}{    }\PY{l+s+s1}{\PYZsq{}\PYZsq{}\PYZsq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{o}{*}\PY{n+nb}{list}\PY{p}{(}\PY{n}{outputs}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{experiment-runner-fill-in-todos}{%
+\subsubsection{Experiment Runner (Fill in
+TODOs)}\label{experiment-runner-fill-in-todos}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{NN\PYZus{}experiment}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{input\PYZus{}size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,}\PYZbs{}
+                  \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,}\PYZbs{}
+                  \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SGD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+
+    \PY{c+c1}{\PYZsh{} Initialize a new neural network model}
+    \PY{n}{hidden\PYZus{}sizes} \PY{o}{=} \PY{p}{[}\PY{n}{hidden\PYZus{}size}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{num\PYZus{}layers} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{net} \PY{o}{=} \PY{n}{NeuralNetwork}\PY{p}{(}\PY{n}{input\PYZus{}size}\PY{p}{,} \PY{n}{hidden\PYZus{}sizes}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{opt}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} Variables to store performance for each epoch}
+    \PY{n}{train\PYZus{}loss} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{epochs}\PY{p}{)}
+    \PY{n}{train\PYZus{}psnr} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{epochs}\PY{p}{)}
+    \PY{n}{test\PYZus{}psnr} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{n}{epochs}\PY{p}{)}
+    \PY{n}{predicted\PYZus{}images} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{epochs}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+    \PY{c+c1}{\PYZsh{} For each epoch...}
+    \PY{k}{for} \PY{n}{epoch} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{epochs}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+
+        \PY{c+c1}{\PYZsh{} Shuffle the dataset}
+        \PY{c+c1}{\PYZsh{} TODO implement this}
+        \PY{n}{indices} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{permutation}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{p}{)}
+        \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{indices}\PY{p}{]}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{[}\PY{n}{indices}\PY{p}{]}
+
+        \PY{c+c1}{\PYZsh{} Training}
+        \PY{c+c1}{\PYZsh{} Run the forward pass of the model to get a prediction and record the psnr}
+        \PY{c+c1}{\PYZsh{} TODO implement this}
+        \PY{n}{train\PYZus{}psnr}\PY{p}{[}\PY{n}{epoch}\PY{p}{]} \PY{o}{=} \PY{n}{psnr}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{net}\PY{o}{.}\PY{n}{forward}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{)}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Run the backward pass of the model to compute the loss, record the loss, and update the weights}
+        \PY{c+c1}{\PYZsh{} TODO implement this}
+        \PY{n}{train\PYZus{}loss}\PY{p}{[}\PY{n}{epoch}\PY{p}{]} \PY{o}{=} \PY{n}{net}\PY{o}{.}\PY{n}{backward}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+        \PY{n}{net}\PY{o}{.}\PY{n}{update}\PY{p}{(}\PY{n}{learning\PYZus{}rate}\PY{p}{)}
+        \PY{k}{if} \PY{p}{(}\PY{n}{epoch} \PY{o}{\PYZpc{}} \PY{l+m+mi}{100} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+          \PY{n}{net}\PY{o}{.}\PY{n}{update\PYZus{}lr}\PY{p}{(}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Testing}
+        \PY{c+c1}{\PYZsh{} No need to run the backward pass here, just run the forward pass to compute and record the psnr}
+        \PY{c+c1}{\PYZsh{} TODO implement this}
+        \PY{n}{predicted\PYZus{}images}\PY{p}{[}\PY{n}{epoch}\PY{p}{]} \PY{o}{=} \PY{n}{net}\PY{o}{.}\PY{n}{forward}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+        \PY{n}{test\PYZus{}psnr}\PY{p}{[}\PY{n}{epoch}\PY{p}{]} \PY{o}{=} \PY{n}{psnr}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{predicted\PYZus{}images}\PY{p}{[}\PY{n}{epoch}\PY{p}{]}\PY{p}{)}
+
+    \PY{k}{return} \PY{n}{net}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{,} \PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{predicted\PYZus{}images}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{low-resolution-reconstruction}{%
+\section{Low Resolution
+Reconstruction}\label{low-resolution-reconstruction}}
+
+    \hypertarget{low-resolution-reconstruction---sgd---none-mapping}{%
+\paragraph{Low Resolution Reconstruction - SGD - None
+Mapping}\label{low-resolution-reconstruction---sgd---none-mapping}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} get input features}
+\PY{c+c1}{\PYZsh{} TODO implement this by using the get\PYZus{}B\PYZus{}dict() and get\PYZus{}input\PYZus{}features() helper functions}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{get\PYZus{}input\PYZus{}features}\PY{p}{(}\PY{n}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{basic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} run NN experiment on input features}
+\PY{c+c1}{\PYZsh{} TODO implement by using the NN\PYZus{}experiment() helper function}
+\PY{n}{net}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{,} \PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{predicted\PYZus{}images} \PY{o}{=} \PY{n}{NN\PYZus{}experiment}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} plot results of experiment}
+\PY{n}{plot\PYZus{}training\PYZus{}curves}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction}\PY{p}{(}\PY{n}{net}\PY{o}{.}\PY{n}{forward}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction\PYZus{}progress}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_24_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Final Test MSE 0.010953989786505683
+Final Test psnr 16.5939767267901
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_24_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_24_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{low-resolution-reconstruction---sgd---various-input-mapping-stategies}{%
+\paragraph{Low Resolution Reconstruction - SGD - Various Input Mapping
+Stategies}\label{low-resolution-reconstruction---sgd---various-input-mapping-stategies}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{train\PYZus{}wrapper}\PY{p}{(}\PY{n}{mapping}\PY{p}{,} \PY{n}{size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,}  \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SGD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} TODO implement me}
+    \PY{c+c1}{\PYZsh{} makes it easy to run all your mapping experiments in a for loop}
+    \PY{c+c1}{\PYZsh{} this will similar to what you did previously in the last two sections}
+
+    \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{get\PYZus{}input\PYZus{}features}\PY{p}{(}\PY{n}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{,} \PY{n}{mapping}\PY{p}{)}
+    \PY{n}{net}\PY{p}{,} \PY{n}{train\PYZus{}psnrs}\PY{p}{,} \PY{n}{test\PYZus{}psnrs}\PY{p}{,} \PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{predicted\PYZus{}images} \PY{o}{=} \PY{n}{NN\PYZus{}experiment}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{)}
+
+    \PY{k}{return} \PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{net}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{net}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}psnrs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{train\PYZus{}psnrs}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{test\PYZus{}psnrs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{test\PYZus{}psnrs}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{train\PYZus{}loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{train\PYZus{}loss}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{pred\PYZus{}imgs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{predicted\PYZus{}images}
+    \PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{outputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{B\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{training}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{p}{)}
+  \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}wrapper}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SGD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/3 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training none
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training basic
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training gauss\_1.0
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} if you did everything correctly so far, this should output a nice figure you can use in your report}
+\PY{n}{plot\PYZus{}feature\PYZus{}mapping\PYZus{}comparison}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_28_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{high-resolution-reconstruction}{%
+\section{High Resolution
+Reconstruction}\label{high-resolution-reconstruction}}
+
+    \hypertarget{high-resolution-reconstruction---sgd---various-input-mapping-stategies}{%
+\paragraph{High Resolution Reconstruction - SGD - Various Input Mapping
+Stategies}\label{high-resolution-reconstruction---sgd---various-input-mapping-stategies}}
+
+    Repeat the previous experiment, but at the higher resolution. The reason
+why we have you first experiment with the lower resolution since it is
+faster to train and debug. Additionally, you will see how the mapping
+strategies perform better or worse at the two different input
+resolutions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} load hi\PYZhy{}res image}
+\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{128}
+\PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<ipython-input-9-47d50880e2e8>:6: DeprecationWarning: Starting with ImageIO v3
+the behavior of this function will switch to that of iio.v3.imread. To keep the
+current behavior (and make this warning disappear) use `import imageio.v2 as
+imageio` or call `imageio.v2.imread` directly.
+  img = imageio.imread(image\_url)[{\ldots}, :3] / 255.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_32_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{hidden\PYZus{}size} \PY{o}{=} \PY{l+m+mi}{1024} \PY{c+c1}{\PYZsh{}256}
+\PY{n}{epochs} \PY{o}{=} \PY{l+m+mi}{2000} \PY{c+c1}{\PYZsh{}1000}
+\PY{n}{learning\PYZus{}rate} \PY{o}{=} \PY{l+m+mf}{0.05} \PY{c+c1}{\PYZsh{}.1, .2}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{outputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{B\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{training}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{p}{)}
+  \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}wrapper}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/3 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training none
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training basic
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+training gauss\_1.0
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+  0\%|          | 0/2000 [00:00<?, ?it/s]
+    \end{Verbatim}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{get\PYZus{}input\PYZus{}features}\PY{p}{(}\PY{n}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} for getting y\PYZus{}test}
+
+\PY{c+c1}{\PYZsh{} if you did everything correctly so far, this should output a nice figure you can use in your report}
+\PY{n}{plot\PYZus{}feature\PYZus{}mapping\PYZus{}comparison}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Office hour feedback}
+\PY{c+c1}{\PYZsh{} Best thing to try is training for more epochs}
+\PY{c+c1}{\PYZsh{} Train curve should be around 30, test curve will likely be lower at around 18}
+\PY{c+c1}{\PYZsh{} learning rate either too high or too low}
+\PY{c+c1}{\PYZsh{} Come to office hours if it still doesn\PYZsq{}t work}
+\PY{c+c1}{\PYZsh{} Use an intermediate resolution (change \PYZsq{}size\PYZsq{} variable)}
+\PY{c+c1}{\PYZsh{} Mini batch SGD}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_35_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{high-resolution-reconstruction---image-of-your-choice}{%
+\paragraph{High Resolution Reconstruction - Image of your
+Choice}\label{high-resolution-reconstruction---image-of-your-choice}}
+
+    When choosing an image select one that you think will give you
+interesting results or a better insight into the performance of
+different feature mappings and explain why in your report template.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{128}
+\PY{c+c1}{\PYZsh{} TODO pick an image and replace the url string}
+\PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{p}{,} \PY{n}{image\PYZus{}url}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{https://science.nasa.gov/wp\PYZhy{}content/uploads/2023/09/stsci\PYZhy{}01ga76rm0c11w977jrhgj5j26x\PYZhy{}2.png}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+<ipython-input-9-47d50880e2e8>:6: DeprecationWarning: Starting with ImageIO v3
+the behavior of this function will switch to that of iio.v3.imread. To keep the
+current behavior (and make this warning disappear) use `import imageio.v2 as
+imageio` or call `imageio.v2.imread` directly.
+  img = imageio.imread(image\_url)[{\ldots}, :3] / 255.
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_38_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} get input features}
+\PY{c+c1}{\PYZsh{} TODO implement this by using the get\PYZus{}B\PYZus{}dict() and get\PYZus{}input\PYZus{}features() helper functions}
+
+\PY{c+c1}{\PYZsh{} run NN experiment on input features}
+\PY{c+c1}{\PYZsh{} TODO implement by using the NN\PYZus{}experiment() helper function}
+
+\PY{n}{plot\PYZus{}training\PYZus{}curves}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction}\PY{p}{(}\PY{n}{net}\PY{o}{.}\PY{n}{forward}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction\PYZus{}progress}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{neural_network_files/neural_network_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-red}{---------------------------------------------------------------------------}
+\textcolor{ansi-red}{ValueError}                                Traceback (most recent call last)
+\textcolor{ansi-green}{<ipython-input-27-3bbc6ebec537>} in \textcolor{ansi-cyan}{<cell line: 0>}\textcolor{ansi-blue}{()}
+\textcolor{ansi-green-intense}{\textbf{      6}} 
+\textcolor{ansi-green-intense}{\textbf{      7}} plot\_training\_curves\textcolor{ansi-blue}{(}train\_loss\textcolor{ansi-blue}{,} train\_psnr\textcolor{ansi-blue}{,} test\_psnr\textcolor{ansi-blue}{)}
+\textcolor{ansi-green}{----> 8}\textcolor{ansi-red}{ }plot\_reconstruction\textcolor{ansi-blue}{(}net\textcolor{ansi-blue}{.}forward\textcolor{ansi-blue}{(}X\_test\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{,} y\_test\textcolor{ansi-blue}{)}
+\textcolor{ansi-green-intense}{\textbf{      9}} plot\_reconstruction\_progress\textcolor{ansi-blue}{(}predicted\_images\textcolor{ansi-blue}{,} y\_test\textcolor{ansi-blue}{)}
+
+\textcolor{ansi-green}{/content/drive/My Drive/assignment2\_starter\_code/models/aidan\_neural\_net.py} in \textcolor{ansi-cyan}{forward}\textcolor{ansi-blue}{(self, X)}
+\textcolor{ansi-green-intense}{\textbf{    148}} 
+\textcolor{ansi-green-intense}{\textbf{    149}}         \textcolor{ansi-green}{for} i \textcolor{ansi-green}{in} range\textcolor{ansi-blue}{(}\textcolor{ansi-cyan}{1}\textcolor{ansi-blue}{,} self\textcolor{ansi-blue}{.}num\_layers \textcolor{ansi-blue}{+} \textcolor{ansi-cyan}{1}\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{:}
+\textcolor{ansi-green}{--> 150}\textcolor{ansi-red}{           }output \textcolor{ansi-blue}{=} self\textcolor{ansi-blue}{.}linear\textcolor{ansi-blue}{(}self\textcolor{ansi-blue}{.}params\textcolor{ansi-blue}{[}\textcolor{ansi-blue}{"W"} \textcolor{ansi-blue}{+} str\textcolor{ansi-blue}{(}i\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{]}\textcolor{ansi-blue}{,} self\textcolor{ansi-blue}{.}outputs\textcolor{ansi-blue}{[}\textcolor{ansi-blue}{"L"} \textcolor{ansi-blue}{+} str\textcolor{ansi-blue}{(}i \textcolor{ansi-blue}{-} \textcolor{ansi-cyan}{1}\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{]}\textcolor{ansi-blue}{,} self\textcolor{ansi-blue}{.}params\textcolor{ansi-blue}{[}\textcolor{ansi-blue}{"b"} \textcolor{ansi-blue}{+} str\textcolor{ansi-blue}{(}i\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{]}\textcolor{ansi-blue}{)}
+\textcolor{ansi-green-intense}{\textbf{    151}}           self\textcolor{ansi-blue}{.}outputs\textcolor{ansi-blue}{[}\textcolor{ansi-blue}{"UL"} \textcolor{ansi-blue}{+} str\textcolor{ansi-blue}{(}i\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{]} \textcolor{ansi-blue}{=} output
+\textcolor{ansi-green-intense}{\textbf{    152}}           \textcolor{ansi-green}{if} \textcolor{ansi-blue}{(}i \textcolor{ansi-blue}{<} self\textcolor{ansi-blue}{.}num\_layers\textcolor{ansi-blue}{)}\textcolor{ansi-blue}{:}
+
+\textcolor{ansi-green}{/content/drive/My Drive/assignment2\_starter\_code/models/aidan\_neural\_net.py} in \textcolor{ansi-cyan}{linear}\textcolor{ansi-blue}{(self, W, X, b)}
+\textcolor{ansi-green-intense}{\textbf{     74}}             the output
+\textcolor{ansi-green-intense}{\textbf{     75}}         """ 
+\textcolor{ansi-green}{---> 76}\textcolor{ansi-red}{         }\textcolor{ansi-green}{return} \textcolor{ansi-blue}{(}X \textcolor{ansi-blue}{@} W\textcolor{ansi-blue}{)} \textcolor{ansi-blue}{+} b
+\textcolor{ansi-green-intense}{\textbf{     77}} 
+\textcolor{ansi-green-intense}{\textbf{     78}}     \textcolor{ansi-green}{def} linear\_grad\textcolor{ansi-blue}{(}self\textcolor{ansi-blue}{,} W\textcolor{ansi-blue}{:} np\textcolor{ansi-blue}{.}ndarray\textcolor{ansi-blue}{,} X\textcolor{ansi-blue}{:} np\textcolor{ansi-blue}{.}ndarray\textcolor{ansi-blue}{,} de\_dz\textcolor{ansi-blue}{:} np\textcolor{ansi-blue}{.}ndarray\textcolor{ansi-blue}{)} \textcolor{ansi-blue}{->} np\textcolor{ansi-blue}{.}ndarray\textcolor{ansi-blue}{:}
+
+\textcolor{ansi-red}{ValueError}: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 4 is different from 2)
+    \end{Verbatim}
+
+    \hypertarget{reconstruction-process-video-optional}{%
+\section{Reconstruction Process Video
+(Optional)}\label{reconstruction-process-video-optional}}
+
+(For Fun!) Visualize the progress of training in a video
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} requires installing this additional dependency}
+\PY{o}{!}pip\PY{+w}{ }install\PY{+w}{ }imageio\PYZhy{}ffmpeg
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} single video example}
+\PY{n}{create\PYZus{}and\PYZus{}visualize\PYZus{}video}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gauss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pred\PYZus{}imgs}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{predicted\PYZus{}images}\PY{p}{\PYZcb{}}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{filename}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{training\PYZus{}high\PYZus{}res\PYZus{}gauss.mp4}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} multi video example}
+\PY{n}{create\PYZus{}and\PYZus{}visualize\PYZus{}video}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{epochs}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{l+m+mi}{32}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{extra-credit---adam-optimizer}{%
+\section{Extra Credit - Adam
+Optimizer}\label{extra-credit---adam-optimizer}}
+
+    \hypertarget{low-resolution-reconstruction---adam---none-mapping}{%
+\paragraph{Low Resolution Reconstruction - Adam - None
+Mapping}\label{low-resolution-reconstruction---adam---none-mapping}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} load low\PYZhy{}res image}
+\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{32}
+\PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} get input features}
+\PY{c+c1}{\PYZsh{} TODO implement this by using the get\PYZus{}B\PYZus{}dict() and get\PYZus{}input\PYZus{}features() helper functions}
+
+\PY{c+c1}{\PYZsh{} run NN experiment on input features}
+\PY{c+c1}{\PYZsh{} TODO implement by using the NN\PYZus{}experiment() helper function}
+
+\PY{c+c1}{\PYZsh{} plot results of experiment}
+\PY{n}{plot\PYZus{}training\PYZus{}curves}\PY{p}{(}\PY{n}{train\PYZus{}loss}\PY{p}{,} \PY{n}{train\PYZus{}psnr}\PY{p}{,} \PY{n}{test\PYZus{}psnr}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction}\PY{p}{(}\PY{n}{net}\PY{o}{.}\PY{n}{forward}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstruction\PYZus{}progress}\PY{p}{(}\PY{n}{predicted\PYZus{}images}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{low-resolution-reconstruction---adam---various-input-mapping-stategies}{%
+\paragraph{Low Resolution Reconstruction - Adam - Various Input Mapping
+Stategies}\label{low-resolution-reconstruction---adam---various-input-mapping-stategies}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} start training}
+\PY{n}{outputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{B\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{training}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{p}{)}
+  \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}wrapper}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{high-resolution-reconstruction---adam---various-input-mapping-stategies}{%
+\paragraph{High Resolution Reconstruction - Adam - Various Input Mapping
+Stategies}\label{high-resolution-reconstruction---adam---various-input-mapping-stategies}}
+
+    Repeat the previous experiment, but at the higher resolution. The reason
+why we have you first experiment with the lower resolution since it is
+faster to train and debug. Additionally, you will see how the mapping
+strategies perform better or worse at the two different input
+resolutions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} load image}
+\PY{n}{size} \PY{o}{=} \PY{l+m+mi}{128}
+\PY{n}{train\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{get\PYZus{}image}\PY{p}{(}\PY{n}{size}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} start training}
+\PY{n}{outputs} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n}{tqdm}\PY{p}{(}\PY{n}{B\PYZus{}dict}\PY{p}{)}\PY{p}{:}
+  \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{training}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{k}\PY{p}{)}
+  \PY{n}{outputs}\PY{p}{[}\PY{n}{k}\PY{p}{]} \PY{o}{=} \PY{n}{train\PYZus{}wrapper}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{size}\PY{p}{,} \PY{n}{num\PYZus{}layers}\PY{p}{,} \PY{n}{hidden\PYZus{}size}\PY{p}{,} \PY{n}{output\PYZus{}size}\PY{p}{,} \PY{n}{epochs}\PY{p}{,} \PY{n}{learning\PYZus{}rate}\PY{p}{,} \PY{n}{opt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Adam}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{get\PYZus{}input\PYZus{}features}\PY{p}{(}\PY{n}{get\PYZus{}B\PYZus{}dict}\PY{p}{(}\PY{n}{size}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}  \PY{c+c1}{\PYZsh{} for getting y\PYZus{}test}
+
+\PY{c+c1}{\PYZsh{} if you did everything correctly so far, this should output a nice figure you can use in your report}
+\PY{n}{plot\PYZus{}feature\PYZus{}mapping\PYZus{}comparison}\PY{p}{(}\PY{n}{outputs}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{size}\PY{p}{,}\PY{n}{size}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{!}pip\PY{+w}{ }install\PY{+w}{ }nbconvert
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Requirement already satisfied: nbconvert in /usr/local/lib/python3.11/dist-
+packages (7.16.6)
+Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (4.13.3)
+Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.11/dist-
+packages (from bleach[css]!=5.0.0->nbconvert) (6.2.0)
+Requirement already satisfied: defusedxml in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (0.7.1)
+Requirement already satisfied: jinja2>=3.0 in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (3.1.6)
+Requirement already satisfied: jupyter-core>=4.7 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (5.7.2)
+Requirement already satisfied: jupyterlab-pygments in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (0.3.0)
+Requirement already satisfied: markupsafe>=2.0 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (3.0.2)
+Requirement already satisfied: mistune<4,>=2.0.3 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (3.1.2)
+Requirement already satisfied: nbclient>=0.5.0 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (0.10.2)
+Requirement already satisfied: nbformat>=5.7 in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (5.10.4)
+Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (24.2)
+Requirement already satisfied: pandocfilters>=1.4.1 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (1.5.1)
+Requirement already satisfied: pygments>=2.4.1 in
+/usr/local/lib/python3.11/dist-packages (from nbconvert) (2.18.0)
+Requirement already satisfied: traitlets>=5.1 in /usr/local/lib/python3.11/dist-
+packages (from nbconvert) (5.7.1)
+Requirement already satisfied: webencodings in /usr/local/lib/python3.11/dist-
+packages (from bleach!=5.0.0->bleach[css]!=5.0.0->nbconvert) (0.5.1)
+Requirement already satisfied: tinycss2<1.5,>=1.1.0 in
+/usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0->nbconvert)
+(1.4.0)
+Requirement already satisfied: platformdirs>=2.5 in
+/usr/local/lib/python3.11/dist-packages (from jupyter-core>=4.7->nbconvert)
+(4.3.6)
+Requirement already satisfied: jupyter-client>=6.1.12 in
+/usr/local/lib/python3.11/dist-packages (from nbclient>=0.5.0->nbconvert)
+(6.1.12)
+Requirement already satisfied: fastjsonschema>=2.15 in
+/usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert) (2.21.1)
+Requirement already satisfied: jsonschema>=2.6 in
+/usr/local/lib/python3.11/dist-packages (from nbformat>=5.7->nbconvert) (4.23.0)
+Requirement already satisfied: soupsieve>1.2 in /usr/local/lib/python3.11/dist-
+packages (from beautifulsoup4->nbconvert) (2.6)
+Requirement already satisfied: typing-extensions>=4.0.0 in
+/usr/local/lib/python3.11/dist-packages (from beautifulsoup4->nbconvert)
+(4.12.2)
+Requirement already satisfied: attrs>=22.2.0 in /usr/local/lib/python3.11/dist-
+packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (25.1.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in
+/usr/local/lib/python3.11/dist-packages (from
+jsonschema>=2.6->nbformat>=5.7->nbconvert) (2024.10.1)
+Requirement already satisfied: referencing>=0.28.4 in
+/usr/local/lib/python3.11/dist-packages (from
+jsonschema>=2.6->nbformat>=5.7->nbconvert) (0.36.2)
+Requirement already satisfied: rpds-py>=0.7.1 in /usr/local/lib/python3.11/dist-
+packages (from jsonschema>=2.6->nbformat>=5.7->nbconvert) (0.23.1)
+Requirement already satisfied: pyzmq>=13 in /usr/local/lib/python3.11/dist-
+packages (from jupyter-client>=6.1.12->nbclient>=0.5.0->nbconvert) (24.0.1)
+Requirement already satisfied: python-dateutil>=2.1 in
+/usr/local/lib/python3.11/dist-packages (from jupyter-
+client>=6.1.12->nbclient>=0.5.0->nbconvert) (2.8.2)
+Requirement already satisfied: tornado>=4.1 in /usr/local/lib/python3.11/dist-
+packages (from jupyter-client>=6.1.12->nbclient>=0.5.0->nbconvert) (6.4.2)
+Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.11/dist-
+packages (from python-dateutil>=2.1->jupyter-
+client>=6.1.12->nbclient>=0.5.0->nbconvert) (1.17.0)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{!}apt\PYZhy{}get\PY{+w}{ }install\PY{+w}{ }texlive\PY{+w}{ }texlive\PYZhy{}xetex\PY{+w}{ }texlive\PYZhy{}latex\PYZhy{}extra\PY{+w}{ }pandoc
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Reading package lists{\ldots} Done
+Building dependency tree{\ldots} Done
+Reading state information{\ldots} Done
+pandoc is already the newest version (2.9.2.1-3ubuntu2).
+texlive is already the newest version (2021.20220204-1).
+texlive-latex-extra is already the newest version (2021.20220204-1).
+texlive-xetex is already the newest version (2021.20220204-1).
+0 upgraded, 0 newly installed, 0 to remove and 29 not upgraded.
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{!}jupyter\PY{+w}{ }nbconvert\PY{+w}{ }\PYZhy{}\PYZhy{}to\PY{+w}{ }pdf\PY{+w}{ }\PY{l+s+s2}{\PYZdq{}neural\PYZus{}network\PYZdq{}}.ipynb
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[NbConvertApp] Converting notebook neural\_network.ipynb to pdf
+[NbConvertApp] Support files will be in neural\_network\_files/
+[NbConvertApp] Making directory ./neural\_network\_files
+[NbConvertApp] Writing 150768 bytes to notebook.tex
+[NbConvertApp] Building PDF
+[NbConvertApp] Running xelatex 3 times: ['xelatex', 'notebook.tex', '-quiet']
+[NbConvertApp] CRITICAL | xelatex failed: ['xelatex', 'notebook.tex', '-quiet']
+b"This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian)
+(preloaded format=xelatex)\textbackslash{}n restricted \textbackslash{}\textbackslash{}write18 enabled.\textbackslash{}nentering extended
+mode\textbackslash{}n(./notebook.tex\textbackslash{}nLaTeX2e <2021-11-15> patch level 1\textbackslash{}nL3 programming layer
+<2022-01-21>\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/article.cls\textbackslash{}nDocument Class: article 2021/10/04 v1.4n
+Standard LaTeX document class\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/size11.clo))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tcolorbox/tcolorbox.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/pgf/basiclayer/pgf.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/pgf/utilities/pgfrcs.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/utilities/pgfutil-common.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/utilities/pgfutil-common-lists.t\textbackslash{}nex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def\textbackslash{}n)
+(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/utilities/pgfrcs.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/pgf.revision.tex)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/pgf/basiclayer/pgfcore.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics/graphicx.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics/keyval.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics/graphics.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics/trig.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics-cfg/graphics.cfg)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics-def/xetex.def)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/pgf/systemlayer/pgfsys.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgfsys.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/utilities/pgfkeys.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t\textbackslash{}nex))
+(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgf.cfg)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgfsys-xetex.def\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgfsys-common-
+pdf.de\textbackslash{}nf))))\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys
+softpath.code.\textbackslash{}ntex)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.\textbackslash{}ntex))
+(/usr/share/texlive/texmf-
+dist/tex/latex/xcolor/xcolor.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/graphics-cfg/color.cfg))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/basiclayer/pgfcore.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfmath.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfmathcalc.code.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfmathutil.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfmathparser.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfmathfunctions.code.tex\textbackslash{}n(/usr/share/texlive/texmf-d
+ist/tex/generic/pgf/math/pgfmathfunctions.basic.code\textbackslash{}n.tex)\textbackslash{}n(/usr/share/texlive
+/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet\textbackslash{}nric.code.tex)\textbackslash{}n(/u
+sr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod\textbackslash{}ne.
+tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.compa
+rison\textbackslash{}n.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfu
+nctions.base.code.\textbackslash{}ntex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pg
+fmathfunctions.round.code\textbackslash{}n.tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf
+/math/pgfmathfunctions.misc.code.\textbackslash{}ntex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/gene
+ric/pgf/math/pgfmathfunctions.integerari\textbackslash{}nthmetics.code.tex)))\textbackslash{}n(/usr/share/texl
+ive/texmf-
+dist/tex/generic/pgf/math/pgfmathfloat.code.tex))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/math/pgfint.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/g
+eneric/pgf/basiclayer/pgfcorepoints.code.te\textbackslash{}nx)\textbackslash{}n(/usr/share/texlive/texmf-dist/
+tex/generic/pgf/basiclayer/pgfcorepathconstruct.\textbackslash{}ncode.tex)\textbackslash{}n(/usr/share/texlive
+/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code\textbackslash{}n.tex)\textbackslash{}n(/usr/share
+/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te\textbackslash{}nx)\textbackslash{}n(/usr/
+share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c\textbackslash{}node.t
+ex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransforma
+tion\textbackslash{}ns.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgf
+corequick.code.tex\textbackslash{}n)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer
+/pgfcoreobjects.code.t\textbackslash{}nex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/basi
+clayer/pgfcorepathprocessing\textbackslash{}n.code.tex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/gen
+eric/pgf/basiclayer/pgfcorearrows.code.te\textbackslash{}nx)\textbackslash{}n(/usr/share/texlive/texmf-dist/te
+x/generic/pgf/basiclayer/pgfcoreshade.code.tex\textbackslash{}n)\textbackslash{}n(/usr/share/texlive/texmf-dis
+t/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex\textbackslash{}n\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.\textbackslash{}ntex))\textbackslash{}n(/usr/share/texliv
+e/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te\textbackslash{}nx)\textbackslash{}n(/usr/share/t
+exlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c\textbackslash{}node.tex)\textbackslash{}n(/
+usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.\textbackslash{}nt
+ex)\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.t
+ex))\textbackslash{}n)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex\textbackslash{}n)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex\textbackslash{}n)
+\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-
+version-0-65\textbackslash{}n.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18\textbackslash{}n.sty))
+(/usr/share/texlive/texmf-
+dist/tex/latex/tools/verbatim.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/environ/environ.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/trimspaces/trimspaces.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/etoolbox/etoolbox.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tcolorbox/tcbbreakable.code.tex\textbackslash{}nLibrary (tcolorbox):
+'tcbbreakable.code.tex' version '5.0.2'\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/oberdiek/pdfcol.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/ltxcmds/ltxcmds.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/infwarerr/infwarerr.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/iftex/iftex.sty))))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/parskip/parskip.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/kvoptions/kvoptions.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/kvsetkeys/kvsetkeys.sty)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/caption/caption.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/caption/caption3.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/float/float.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tools/enumerate.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/geometry/geometry.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/iftex/ifvtex.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsmath/amsmath.sty\textbackslash{}nFor additional information on amsmath, use
+the `?' option.\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsmath/amstext.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsmath/amsgen.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsmath/amsbsy.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsmath/amsopn.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsfonts/amssymb.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsfonts/amsfonts.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/textcomp.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/upquote/upquote.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/eurosym/eurosym.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/fontspec/fontspec.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/l3packages/xparse/xparse.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/l3kernel/expl3.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/l3backend/l3backend-xetex.def\textbackslash{}n(|extractbb
+--version))))\textbackslash{}n(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-
+xetex.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/fontenc.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/fontspec/fontspec.cfg)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/unicode-math/unicode-math.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/unicode-math/unicode-math-xetex.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/fix-cm.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/ts1enc.def))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/unicode-math/unicode-math-
+table.tex)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/fancyvrb/fancyvrb.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/grffile/grffile.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/adjustbox/adjustbox.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/xkeyval/xkeyval.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/xkeyval/xkeyval.tex\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/xkeyval/xkvutils.tex)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/adjustbox/adjcalc.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/adjustbox/trimclip.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/collectbox/collectbox.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/adjustbox/tc-xetex.def))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/ifoddpage/ifoddpage.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/varwidth/varwidth.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/hyperref.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pdftexcmds/pdftexcmds.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/pdfescape/pdfescape.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hycolor/hycolor.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/letltxmacro/letltxmacro.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/auxhook/auxhook.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/pd1enc.def)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/hyperref-langpatches.def)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/intcalc/intcalc.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/etexcmds/etexcmds.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/puenc.def)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/url/url.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/bitset/bitset.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/bigintcalc/bigintcalc.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/atbegshi-ltx.sty))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/hxetex.def\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/stringenc/stringenc.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/rerunfilecheck/rerunfilecheck.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/base/atveryend-ltx.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/uniquecounter/uniquecounter.sty)))\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/titling/titling.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tools/longtable.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/booktabs/booktabs.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tools/array.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/tools/calc.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/enumitem/enumitem.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/ulem/ulem.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/soul/soul.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/jknapltx/mathrsfs.sty)\textbackslash{}nNo file
+notebook.aux.\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/caption/ltcaption.sty)\textbackslash{}n*geometry* driver: auto-
+detecting\textbackslash{}n*geometry* detected driver: xetex\textbackslash{}n*geometry* verbose mode - [
+preamble ] result:\textbackslash{}n* driver: xetex\textbackslash{}n* paper: <default>\textbackslash{}n* layout: <same size as
+paper>\textbackslash{}n* layoutoffset:(h,v)=(0.0pt,0.0pt)\textbackslash{}n* modes: \textbackslash{}n*
+h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)\textbackslash{}n*
+v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)\textbackslash{}n*
+\textbackslash{}\textbackslash{}paperwidth=614.295pt\textbackslash{}n* \textbackslash{}\textbackslash{}paperheight=794.96999pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}textwidth=469.75502pt\textbackslash{}n* \textbackslash{}\textbackslash{}textheight=650.43001pt\textbackslash{}n* \textbackslash{}\textbackslash{}oddsidemargin=0.0pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}evensidemargin=0.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}topmargin=-37.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}headheight=12.0pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}headsep=25.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}topskip=11.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}footskip=30.0pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}marginparwidth=59.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}marginparsep=10.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}columnsep=10.0pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}skip\textbackslash{}\textbackslash{}footins=10.0pt plus 4.0pt minus 2.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}hoffset=0.0pt\textbackslash{}n*
+\textbackslash{}\textbackslash{}voffset=0.0pt\textbackslash{}n* \textbackslash{}\textbackslash{}mag=1000\textbackslash{}n* \textbackslash{}\textbackslash{}@twocolumnfalse\textbackslash{}n* \textbackslash{}\textbackslash{}@twosidefalse\textbackslash{}n*
+\textbackslash{}\textbackslash{}@mparswitchfalse\textbackslash{}n* \textbackslash{}\textbackslash{}@reversemarginfalse\textbackslash{}n* (1in=72.27pt=25.4mm,
+1cm=28.453pt)\textbackslash{}n\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/hyperref/nameref.sty\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/refcount/refcount.sty)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/generic/gettitlestring/gettitlestring.sty))\textbackslash{}n\textbackslash{}nPackage hyperref
+Warning: Rerun to get /PageLabels entry.\textbackslash{}n\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsfonts/umsa.fd)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/amsfonts/umsb.fd)\textbackslash{}n(/usr/share/texlive/texmf-
+dist/tex/latex/jknapltx/ursfs.fd)\textbackslash{}n\textbackslash{}nLaTeX Warning: No \textbackslash{}\textbackslash{}author
+given.\textbackslash{}n\textbackslash{}n\textbackslash{}nLaTeX Font Warning: Font shape `U/rsfs/m/n' in size <5.475> not
+available\textbackslash{}n(Font)              size <5> substituted on input line
+421.\textbackslash{}n\textbackslash{}n\textbackslash{}nLaTeX Warning: File `https://user-images.githubusercontent.com/3310961
+/85066930\textbackslash{}n-ad444580-b164-11ea-9cc0-17494679e71f.png' not found on input line
+425.\textbackslash{}n\textbackslash{}n! Unable to load picture or PDF file 'https://user-images.githubusercont
+ent.com\textbackslash{}n/3310961/85066930-ad444580-b164-11ea-9cc0-17494679e71f.png'.\textbackslash{}n<to be
+read again> \textbackslash{}n                   \}\textbackslash{}nl.425
+{\ldots}ad444580-b164-11ea-9cc0-17494679e71f.png\}\textbackslash{}n
+\textbackslash{}n? \textbackslash{}n! Emergency stop.\textbackslash{}n<to be read again> \textbackslash{}n                   \}\textbackslash{}nl.425
+{\ldots}ad444580-b164-11ea-9cc0-17494679e71f.png\}\textbackslash{}n
+\textbackslash{}nNo pages of output.\textbackslash{}nTranscript written on notebook.log.\textbackslash{}n"
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 10, in <module>
+    sys.exit(main())
+             \^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-packages/jupyter\_core/application.py",
+line 283, in launch\_instance
+    super().launch\_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python3.11/dist-
+packages/traitlets/config/application.py", line 992, in launch\_instance
+    app.start()
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/nbconvertapp.py", line
+420, in start
+    self.convert\_notebooks()
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/nbconvertapp.py", line
+597, in convert\_notebooks
+    self.convert\_single\_notebook(notebook\_filename)
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/nbconvertapp.py", line
+563, in convert\_single\_notebook
+    output, resources = self.export\_single\_notebook(
+                        \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/nbconvertapp.py", line
+487, in export\_single\_notebook
+    output, resources = self.exporter.from\_filename(
+                        \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-
+packages/nbconvert/exporters/templateexporter.py", line 390, in from\_filename
+    return super().from\_filename(filename, resources, **kw)  \#
+type:ignore[return-value]
+           \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-
+packages/nbconvert/exporters/exporter.py", line 201, in from\_filename
+    return self.from\_file(f, resources=resources, **kw)
+           \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-
+packages/nbconvert/exporters/templateexporter.py", line 396, in from\_file
+    return super().from\_file(file\_stream, resources, **kw)  \#
+type:ignore[return-value]
+           \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-
+packages/nbconvert/exporters/exporter.py", line 220, in from\_file
+    return self.from\_notebook\_node(
+           \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/exporters/pdf.py",
+line 197, in from\_notebook\_node
+    self.run\_latex(tex\_file)
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/exporters/pdf.py",
+line 166, in run\_latex
+    return self.run\_command(
+           \^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}
+  File "/usr/local/lib/python3.11/dist-packages/nbconvert/exporters/pdf.py",
+line 156, in run\_command
+    raise raise\_on\_failure(msg)
+nbconvert.exporters.pdf.LatexFailed: PDF creating failed, captured latex output:
+Failed to run "['xelatex', 'notebook.tex', '-quiet']" command:
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian)
+(preloaded format=xelatex)
+ restricted \textbackslash{}write18 enabled.
+entering extended mode
+(./notebook.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo))
+(/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcolorbox.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-xetex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-dvipdfmx.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.de
+f))))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
+tex)) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet
+ric.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
+thmetics.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
+code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
+s.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.
+tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
+.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
+.sty)) (/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
+Library (tcolorbox): 'tcbbreakable.code.tex' version '5.0.2'
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdfcol.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty))))
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/enumerate.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/eurosym/eurosym.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
+(|extractbb --version))))
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-xetex.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math.sty
+(/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math-xetex.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fix-cm.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def))
+(/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/grffile/grffile.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+(/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-xetex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hxetex.def
+(/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/titling/titling.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/ulem/ulem.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/soul/soul.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/jknapltx/mathrsfs.sty)
+No file notebook.aux.
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty)
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes:
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \textbackslash{}paperwidth=614.295pt
+* \textbackslash{}paperheight=794.96999pt
+* \textbackslash{}textwidth=469.75502pt
+* \textbackslash{}textheight=650.43001pt
+* \textbackslash{}oddsidemargin=0.0pt
+* \textbackslash{}evensidemargin=0.0pt
+* \textbackslash{}topmargin=-37.0pt
+* \textbackslash{}headheight=12.0pt
+* \textbackslash{}headsep=25.0pt
+* \textbackslash{}topskip=11.0pt
+* \textbackslash{}footskip=30.0pt
+* \textbackslash{}marginparwidth=59.0pt
+* \textbackslash{}marginparsep=10.0pt
+* \textbackslash{}columnsep=10.0pt
+* \textbackslash{}skip\textbackslash{}footins=10.0pt plus 4.0pt minus 2.0pt
+* \textbackslash{}hoffset=0.0pt
+* \textbackslash{}voffset=0.0pt
+* \textbackslash{}mag=1000
+* \textbackslash{}@twocolumnfalse
+* \textbackslash{}@twosidefalse
+* \textbackslash{}@mparswitchfalse
+* \textbackslash{}@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/jknapltx/ursfs.fd)
+
+LaTeX Warning: No \textbackslash{}author given.
+
+
+LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <5.475> not available
+(Font)              size <5> substituted on input line 421.
+
+
+LaTeX Warning: File `https://user-images.githubusercontent.com/3310961/85066930
+-ad444580-b164-11ea-9cc0-17494679e71f.png' not found on input line 425.
+
+! Unable to load picture or PDF file 'https://user-images.githubusercontent.com
+/3310961/85066930-ad444580-b164-11ea-9cc0-17494679e71f.png'.
+<to be read again>
+                   \}
+l.425 {\ldots}ad444580-b164-11ea-9cc0-17494679e71f.png\}
+
+?
+! Emergency stop.
+<to be read again>
+                   \}
+l.425 {\ldots}ad444580-b164-11ea-9cc0-17494679e71f.png\}
+
+No pages of output.
+Transcript written on notebook.log.
+
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
