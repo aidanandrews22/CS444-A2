@@ -2,7 +2,7 @@
 
 from typing import Sequence
 
-import numpy as np
+import cupy as np
 
 
 class NeuralNetwork:
